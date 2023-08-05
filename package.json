@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "tsc && node dist/server.js",
-    "start:dev": "tsc && concurrently \"tsc -w\" \"nodemon dist/server.js\""
+    "start:dev": "tsc && concurrently \"tsc -w\" \"nodemon dist/server.js\"",
+    "start:prod": "NODE_ENV=production npm start"
   },
   "author": "Eric Rodriguez <feric.rodriguez@gmail.com>",
   "license": "MIT",

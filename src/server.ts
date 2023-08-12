@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
-import { UserRouter } from './router/user.router';
+import { UserRouter } from './user/user.router';
 import { ServerConfig } from './config/config';
 
 class ServerBootstrap extends ServerConfig {
@@ -10,6 +10,8 @@ class ServerBootstrap extends ServerConfig {
 
     constructor() {
         super();
+
+        this.dbConnect();
 
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: true }));
@@ -26,6 +28,7 @@ class ServerBootstrap extends ServerConfig {
             new UserRouter().router
         ]
     }
+
 
     public listen() {
         this.app.listen(this.port, () => {

@@ -1,5 +1,6 @@
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty, IsOptional } from "class-validator";
 import { BaseDTO } from "../../config/base.dto";
+import { UserEntity } from "../../user/entities/user.entity";
 
 export class CustomerDTO extends BaseDTO {
     @IsNotEmpty()
@@ -7,4 +8,7 @@ export class CustomerDTO extends BaseDTO {
 
     @IsNotEmpty()
     dni!: string;
+
+    @IsOptional()
+    user?: UserEntity;
 }

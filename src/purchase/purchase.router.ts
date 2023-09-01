@@ -1,9 +1,10 @@
 import { BaseRouter } from "../shared/router/router";
 import { PurchaseController } from "./controllers/purchase.controller";
+import { PurchaseMiddleware } from "./middlewares/purchase.middleware";
 
-export class PurchaseRouter extends BaseRouter<PurchaseController> {
+export class PurchaseRouter extends BaseRouter<PurchaseController, PurchaseMiddleware> {
     constructor() {
-        super(PurchaseController);
+        super(PurchaseController, PurchaseMiddleware);
     }
 
     routes(): void {

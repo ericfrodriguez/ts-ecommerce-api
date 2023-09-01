@@ -33,9 +33,18 @@ export class UserController {
     }
 
     async getUserById(req: Request, res: Response) {
-        const { id } = req.params;
         try {
-            const data: UserEntity | null = await this.userService.findById(id)
+            console.log(req.query)
+            const { id } = req.params;
+            let { customer } = req.query;
+
+            let data: UserEntity | null;
+            
+            if(customer === 'true') {
+                data = await this.userService.findByIdWithRelation(id);
+            } else {
+                data = await this.userService.findById(id);
+            }
 
             if (data) {
                 return this.httpResponse.Ok(res, data)
@@ -66,7 +75,7 @@ export class UserController {
         try {
             const data: UpdateResult = await this.userService.update(id, req.body);
 
-            if(!data.affected) {
+            if (!data.affected) {
                 return this.httpResponse.NotFound(res, 'Failed to update user details with the provided criteria')
             }
 
@@ -83,7 +92,7 @@ export class UserController {
         try {
             const data: DeleteResult = await this.userService.destroy(id);
 
-            if(!data.affected) {
+            if (!data.affected) {
                 return this.httpResponse.NotFound(res, 'Failed to delete user details with the provided criteria')
             }
 

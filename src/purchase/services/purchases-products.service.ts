@@ -2,10 +2,13 @@ import { DeleteResult, UpdateResult } from "typeorm";
 import { BaseService } from "../../config/base.service";
 import { PurchaseProductDTO } from "../dto/purchases-products.dto";
 import { PurchaseProductEntity } from "../entities/purchases-products.entity";
+import { ProductService } from '../../product/services/product.service';
 
 
 export class PurchaseProductService extends BaseService<PurchaseProductEntity> {
-    constructor() {
+    constructor(
+        private readonly productService: ProductService = new ProductService()
+    ) {
         super(PurchaseProductEntity)
     }
 
@@ -18,7 +21,12 @@ export class PurchaseProductService extends BaseService<PurchaseProductEntity> {
     }
 
     public async create(body: PurchaseProductDTO): Promise<PurchaseProductEntity> {
-        return (await this.execRepository).save(body);
+        const newPP = (await this.execRepository).create(body);
+        const product = await this.productService.findById(newPP.product.id);
+
+        newPP.totalPrice = product!.price * newPP.quantityProduct;
+
+        return (await this.execRepository).save(newPP);
     }
     
     public async update(id: string, infoUpdate: PurchaseProductDTO): Promise<UpdateResult> {

@@ -33,11 +33,11 @@ class ServerBootstrap extends ServerConfig {
     routers(): express.Router[] {
         return [
             new UserRouter().router,
-            new CategoryRouter().router,
-            new CustomerRouter().router,
-            new ProductRouter().router,
-            new PurchaseRouter().router,
-            new PurchaseProductRouter().router,
+            // new CategoryRouter().router,
+            // new CustomerRouter().router,
+            // new ProductRouter().router,
+            // new PurchaseRouter().router,
+            // new PurchaseProductRouter().router,
         ]
     }
 

@@ -8,8 +8,7 @@ export class PurchaseMiddleware extends SharedMiddleware {
         super();
     }
 
-    async purchaseValidator(req: Request, res: Response, next: NextFunction): Promise<ValidatorMiddleware | void> {
-        try {
+    purchaseValidator(req: Request): PurchaseDTO {
             const {
                 status,
                 paymentMethod,
@@ -22,10 +21,6 @@ export class PurchaseMiddleware extends SharedMiddleware {
             purchase.paymentMethod = paymentMethod;
             purchase.customer = customer;
 
-            return this.validator(purchase);
-
-        } catch (error) {
-            this.httpResponse.InternalServerError(res, error)
-        }
+            return purchase;
     }
 }

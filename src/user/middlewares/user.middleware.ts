@@ -8,11 +8,10 @@ export class UserMiddleware extends SharedMiddleware {
 
     constructor() {
         super();
-        this.userValidator = this.userValidator.bind(this)
+        this.mapCreateUserData = this.mapCreateUserData.bind(this)
     }
 
-    async userValidator(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
-        try {
+    mapCreateUserData(req: Request): UserDTO {
             const {
                 name,
                 lastname,
@@ -34,15 +33,6 @@ export class UserMiddleware extends SharedMiddleware {
             user.province = province;
             user.role = role;
 
-            const errors = await validate(user)
-            if (errors.length > 0) {
-                return this.httpResponse.InternalServerError(res, errors)
-            } else {
-                return next()
-            }
-
-        } catch (error) {
-            this.httpResponse.InternalServerError(res, error)
-        }
+            return user;
     }
 }

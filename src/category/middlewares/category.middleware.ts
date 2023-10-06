@@ -8,18 +8,13 @@ export class CategoryMiddleware extends SharedMiddleware {
         super();
     }
 
-    async categoryValidator(req: Request, res: Response, next: NextFunction): Promise<ValidatorMiddleware | void> {
-        try {
+    mapCreateCategoryData(req: Request): CategoryDTO {
             const { categoryName } = req.body;
 
             const category: CategoryDTO = new CategoryDTO();
 
             category.categoryName = categoryName;
 
-            return this.validator(category);
-
-        } catch (error) {
-            this.httpResponse.InternalServerError(res, error)
-        }
+            return category;
     }
 }

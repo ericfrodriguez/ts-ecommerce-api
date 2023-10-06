@@ -8,8 +8,7 @@ export class ProductMiddleware extends SharedMiddleware {
         super();
     }
 
-    async productValidator(req: Request, res: Response, next: NextFunction): Promise<ValidatorMiddleware | void> {
-        try {
+    productValidator(req: Request): ProductDTO {
             const {
                 productName,
                 description,
@@ -24,10 +23,6 @@ export class ProductMiddleware extends SharedMiddleware {
             product.price = price;
             product.category = category;
 
-            return this.validator(product);
-
-        } catch (error) {
-            this.httpResponse.InternalServerError(res, error)
-        }
+            return product;
     }
 }

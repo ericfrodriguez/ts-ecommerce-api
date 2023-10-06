@@ -11,6 +11,9 @@ import { ProductRouter } from './product/product.router';
 import { PurchaseRouter } from './purchase/purchase.router';
 import { PurchaseProductRouter } from './purchase/purchases-products.router';
 import { DataSource } from 'typeorm';
+import { LoginStrategy } from './auth/strategies/login.strategy';
+import { JwtStrategy } from './auth/strategies/jwt.strategy';
+import { AuthRouter } from './auth/auth.router';
 
 class ServerBootstrap extends ServerConfig {
     public app: express.Application = express();
@@ -24,6 +27,8 @@ class ServerBootstrap extends ServerConfig {
         this.app.use(morgan('dev'));
         this.app.use(cors());
 
+        this.passportUse();
+
         this.dbConnect();
 
         this.app.use('/api', this.routers());
@@ -33,11 +38,19 @@ class ServerBootstrap extends ServerConfig {
     routers(): express.Router[] {
         return [
             new UserRouter().router,
-            // new CategoryRouter().router,
-            // new CustomerRouter().router,
-            // new ProductRouter().router,
-            // new PurchaseRouter().router,
-            // new PurchaseProductRouter().router,
+            new AuthRouter().router,
+            new CategoryRouter().router,
+            new CustomerRouter().router,
+            new ProductRouter().router,
+            new PurchaseRouter().router,
+            new PurchaseProductRouter().router,
+        ]
+    }
+
+    public passportUse() {
+        return [
+            new LoginStrategy().use,
+            new JwtStrategy().use
         ]
     }
 

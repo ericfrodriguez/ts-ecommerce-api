@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import { UserEntity } from "../entities/user.entity";
 import { UserService } from '../services/user.service';
 import { HttpResponse } from "../../shared/response/http.response";
+import { UserObject } from "../types/service.types";
 
 export class UserController {
 
@@ -60,7 +61,8 @@ export class UserController {
     async createUser(req: Request, res: Response) {
 
         try {
-            const data: UserEntity = await this.userService.create(req.body);
+            //TODO: Validar si el usuario existe antes de crearlo
+            const data: UserObject = await this.userService.create(req.body);
 
             return this.httpResponse.Created(res, data)
         } catch (error) {

@@ -9,18 +9,17 @@ export class UserEntity extends BaseEntity {
 
     @Column()
     name!: string;
-    
+
     @Column()
     lastname!: string;
-    
+
     @Column()
     username!: string;
 
     @Column()
     email!: string;
 
-    @Exclude()
-    @Column()
+    @Column({ select: false })
     password!: string;
 
     @Column()
